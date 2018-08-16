@@ -266,8 +266,7 @@ public final class OpenSslX509KeyManagerFactory extends KeyManagerFactory {
                 private final Date creationDate = new Date();
 
                 @Override
-                public Key engineGetKey(String alias, char[] password)
-                        throws NoSuchAlgorithmException, UnrecoverableKeyException {
+                public Key engineGetKey(String alias, char[] password) throws UnrecoverableKeyException {
                     if (engineContainsAlias(alias)) {
                         try {
                             return new OpenSslPrivateKey(SSL.loadPrivateKeyFromEngine(
@@ -356,14 +355,12 @@ public final class OpenSslX509KeyManagerFactory extends KeyManagerFactory {
                 }
 
                 @Override
-                public void engineStore(OutputStream stream, char[] password)
-                        throws IOException, NoSuchAlgorithmException, CertificateException {
+                public void engineStore(OutputStream stream, char[] password) {
                     throw new UnsupportedOperationException();
                 }
 
                 @Override
-                public void engineLoad(InputStream stream, char[] password)
-                        throws IOException, NoSuchAlgorithmException, CertificateException {
+                public void engineLoad(InputStream stream, char[] password) {
                     if (stream != null && password != null) {
                         throw new UnsupportedOperationException();
                     }

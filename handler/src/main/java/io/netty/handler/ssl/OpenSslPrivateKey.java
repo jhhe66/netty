@@ -24,20 +24,21 @@ import java.security.PrivateKey;
 
 final class OpenSslPrivateKey extends AbstractReferenceCounted implements PrivateKey {
 
-    private volatile long privateKey;
+    private volatile long privateKeyAddress;
 
-    OpenSslPrivateKey(long privateKey) {
-        this.privateKey = privateKey;
+    OpenSslPrivateKey(long privateKeyAddress) {
+        this.privateKeyAddress = privateKeyAddress;
     }
 
     @Override
     public String getAlgorithm() {
-        return null;
+        return "unkown";
     }
 
     @Override
     public String getFormat() {
-        return "native";
+        // As we do not support encoding we should return null as stated in the javadocs of PrivateKey.
+        return null;
     }
 
     @Override
@@ -48,17 +49,17 @@ final class OpenSslPrivateKey extends AbstractReferenceCounted implements Privat
     /**
      * Returns the pointer to the {@code EVP_PKEY}.
      */
-    public long privateKeyAddress() {
+    long privateKeyAddress() {
         if (refCnt() <= 0) {
             throw new IllegalReferenceCountException();
         }
-        return privateKey;
+        return privateKeyAddress;
     }
 
     @Override
     protected void deallocate() {
-        SSL.freePrivateKey(privateKey);
-        privateKey = 0;
+        SSL.freePrivateKey(privateKeyAddress);
+        privateKeyAddress = 0;
     }
 
     @Override
@@ -180,6 +181,7 @@ final class OpenSslPrivateKey extends AbstractReferenceCounted implements Privat
             SSL.freeX509Chain(certificateChain);
             certificateChain = 0;
         }
+
         @Override
         public int refCnt() {
             return OpenSslPrivateKey.this.refCnt();
