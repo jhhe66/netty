@@ -116,7 +116,7 @@ final class OpenSslPrivateKey extends AbstractReferenceCounted implements Privat
 
     private final class OpenSslPrivateKeyMaterial implements OpenSslKeyMaterial {
 
-        private volatile long certificateChain;
+        private long certificateChain;
 
         OpenSslPrivateKeyMaterial(long certificateChain) {
             this.certificateChain = certificateChain;
