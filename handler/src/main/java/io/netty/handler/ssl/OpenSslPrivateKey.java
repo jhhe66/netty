@@ -24,7 +24,7 @@ import java.security.PrivateKey;
 
 final class OpenSslPrivateKey extends AbstractReferenceCounted implements PrivateKey {
 
-    private volatile long privateKeyAddress;
+    private long privateKeyAddress;
 
     OpenSslPrivateKey(long privateKeyAddress) {
         this.privateKeyAddress = privateKeyAddress;
